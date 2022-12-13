@@ -3,6 +3,8 @@ import { render as renderJSX } from 'react-dom';
 import MyButton from './MyButton';
 import MyList from './MyList';
 
+//N.B. the appState object contains the State for our application and pieces of this State are then passed into components as properties when the components are rendered.
+
 const appState = {
   text: 'My Button',
   disabled: true,
