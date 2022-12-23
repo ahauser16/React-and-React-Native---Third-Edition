@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const id = (function*() {
+const id = (function* () {
   let i = 1;
   while (true) {
     yield i;
@@ -15,70 +15,76 @@ export default class MyFeature extends Component {
         id: id.next(),
         title: "Article 1",
         summary: "Article 1 Summary",
-        display: "none"
+        display: "none",
       },
       {
         id: id.next(),
         title: "Article 2",
         summary: "Article 2 Summary",
-        display: "none"
+        display: "none",
       },
       {
         id: id.next(),
         title: "Article 3",
         summary: "Article 3 Summary",
-        display: "none"
+        display: "none",
       },
       {
         id: id.next(),
         title: "Article 4",
         summary: "Article 4 Summary",
-        display: "none"
-      }
+        display: "none",
+      },
     ],
     title: "",
-    summary: ""
+    summary: "",
   };
 
-  onChangeTitle = e => {
+  onChangeTitle = (e) => {
     this.setState({ title: e.target.value });
   };
 
-  onChangeSummary = e => {
+  onChangeSummary = (e) => {
     this.setState({ summary: e.target.value });
   };
 
   onClickAdd = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       articles: [
         ...state.articles,
         {
           id: id.next(),
           title: state.title,
           summary: state.summary,
-          display: "none"
-        }
+          display: "none",
+        },
       ],
       title: "",
-      summary: ""
+      summary: "",
     }));
   };
 
-  onClickRemove = id => {
-    this.setState(state => ({
+  onClickRemove = (id) => {
+    this.setState((state) => ({
       ...state,
-      articles: state.articles.filter(article => article.id !== id)
+      articles: state.articles.filter((article) => article.id !== id),
     }));
   };
 
-  onClickToggle = id => {
-    this.setState(state => {
+  //the onClickToggle() method toggles the visibility of the article with the given ID.
+  onClickToggle = (id) => {
+    this.setState((state) => {
+      //There are two immutable operations within this method.
+      //First, we declare a new state array named articles using the spread operator which is based on the existing articles state array.
       const articles = [...state.articles];
-      const index = articles.findIndex(article => article.id === id);
+      //Second, based on the index of the given article's ID...
+      const index = articles.findIndex((article) => article.id === id);
 
+      //... we replace the articles object at the index with a new object which contains the same properties thanks to the spread operator...
       articles[index] = {
         ...articles[index],
-        display: articles[index].display ? "" : "none"
+        //...and then the display property value is toggled based on the existing display value.
+        display: articles[index].display ? "" : "none",
       };
 
       return { ...state, articles };
@@ -90,6 +96,9 @@ export default class MyFeature extends Component {
 
     return (
       <section>
+        {/* 
+        Within this JSX block, the header contains the feature's form controls so this could become its own component.
+        */}
         <header>
           <h1>Articles</h1>
           <input
@@ -104,9 +113,13 @@ export default class MyFeature extends Component {
           />
           <button onClick={this.onClickAdd}>Add</button>
         </header>
+
         <article>
           <ul>
-            {articles.map(i => (
+            {/* 
+            Within this article tag and unordered list, there's potential for an article component which would be everything in the <li> tag 
+            */}
+            {articles.map((i) => (
               <li key={i.id}>
                 <a
                   href={`#${i.id}`}
